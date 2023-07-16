@@ -125,30 +125,32 @@ router.post('/', (req, res) => {
 // update product
 router.put('/:id', (req, res) => {
   // update product data
-  Product.update(req.body, {
+  const body = req.body
+  const { id } = req.params
+  Product.update(body, {
     where: {
-      id: req.params.id,
+      id: id,
     },
   })
     .then((product) => {
-      if (req.body.tagIds && req.body.tagIds.length) {
+      if (body.tagIds && body.tagIds.length) {
         ProductTag.findAll({
-          where: { product_id: req.params.id },
+          where: { product_id: id },
         }).then((productTags) => {
           // create filtered list of new tag_ids
           const productTagIds = productTags.map(({ tag_id }) => tag_id)
-          const newProductTags = req.body.tagIds
+          const newProductTags = body.tagIds
             .filter((tag_id) => !productTagIds.includes(tag_id))
             .map((tag_id) => {
               return {
-                product_id: req.params.id,
+                product_id: id,
                 tag_id,
               }
             })
 
           // figure out which ones to remove
           const productTagsToRemove = productTags
-            .filter(({ tag_id }) => !req.body.tagIds.includes(tag_id))
+            .filter(({ tag_id }) => !body.tagIds.includes(tag_id))
             .map(({ id }) => id)
           // run both actions
           return Promise.all([
@@ -158,16 +160,43 @@ router.put('/:id', (req, res) => {
         })
       }
 
-      return res.json(product)
+      return res.status(200).json({
+        success: true,
+        text: `Updated item: ${body.product_name}`,
+      })
     })
     .catch((err) => {
-      // console.log(err);
-      res.status(500).json(err)
+      console.log(err)
+      res.status(500).json({ success: false, error: err })
     })
 })
 
 router.delete('/:id', (req, res) => {
   // delete one product by its `id` value
+  const { id } = req.params
+  Product.destroy({
+    where: {
+      id: id,
+    },
+  })
+    .then((data) => {
+      if (!data) {
+        res.status(404).json({
+          success: false,
+          text: `No product found with id ${id}`,
+        })
+        return
+      } else {
+        res.status(200).json({
+          success: true,
+          text: `Deleted product with id ${id}`,
+        })
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+      res.status(500).json({ success: false, error: err })
+    })
 })
 
 module.exports = router
