@@ -58,7 +58,6 @@ router.get('/:id', (req, res) => {
     ],
   })
     .then((data) => {
-      console.log(data)
       if (!data) {
         res.status(404).json({
           success: false,
@@ -84,17 +83,18 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
   /* req.body should look like this...
     {
-      product_name: "Basketball",
-      price: 200.00,
-      stock: 3,
-      tagIds: [1, 2, 3, 4]
+      "product_name": "Basketball",
+      "price": 200.00,
+      "stock": 3,
+      "tagIds": [1, 2, 3, 4]
     }
   */
-  Product.create(req.body)
+  const { body } = req
+  Product.create(body)
     .then((product) => {
       // if there's product tags, we need to create pairings to bulk create in the ProductTag model
-      if (req.body.tagIds.length) {
-        const productTagIdArr = req.body.tagIds.map((tag_id) => {
+      if (body.tagIds.length) {
+        const productTagIdArr = body.tagIds.map((tag_id) => {
           return {
             product_id: product.id,
             tag_id,
@@ -103,12 +103,22 @@ router.post('/', (req, res) => {
         return ProductTag.bulkCreate(productTagIdArr)
       }
       // if no product tags, just respond
-      res.status(200).json(product)
+      res.status(200).json({
+        success: true,
+        text: `Showing product data for item: ${product.product_name}`,
+        data: product,
+      })
     })
-    .then((productTagIds) => res.status(200).json(productTagIds))
+    .then((productTagIds) =>
+      res.status(200).json({
+        success: true,
+        text: 'Showing product tag ids',
+        data: productTagIds,
+      })
+    )
     .catch((err) => {
       console.log(err)
-      res.status(400).json(err)
+      res.status(500).json({ success: false, error: err })
     })
 })
 
@@ -152,7 +162,7 @@ router.put('/:id', (req, res) => {
     })
     .catch((err) => {
       // console.log(err);
-      res.status(400).json(err)
+      res.status(500).json(err)
     })
 })
 
