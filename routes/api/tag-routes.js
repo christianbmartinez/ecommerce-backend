@@ -67,6 +67,30 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
   // create a new tag
+  const { tag_name } = req.body
+  if (typeof tag_name !== 'string' || tag_name.length < 2) {
+    res.status(400).json({
+      success: false,
+      text: `Please enter a valid tag name. Expected a string of at least 2 characters, got ${tag_name}`,
+      data: null,
+    })
+  } else {
+    Tag.create({
+      tag_name: tag_name,
+    }).then((data) => {
+      res
+        .status(200)
+        .json({
+          success: true,
+          text: `Created tag with name ${tag_name}`,
+          data: data,
+        })
+        .catch((err) => {
+          console.log(err)
+          res.status(500).json({ success: false, error: err })
+        })
+    })
+  }
 })
 
 router.put('/:id', (req, res) => {
