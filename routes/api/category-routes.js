@@ -131,7 +131,6 @@ router.delete('/:id', (req, res) => {
     },
   })
     .then((data) => {
-      console.log(data)
       if (!data) {
         res.status(404).json({
           success: false,
