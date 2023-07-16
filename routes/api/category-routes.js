@@ -37,7 +37,7 @@ router.get('/:id', (req, res) => {
   const { id } = req.params
   Category.findOne({
     where: {
-      id: id,
+      id: Number(id),
     },
     include: {
       model: Product,
@@ -99,7 +99,7 @@ router.put('/:id', (req, res) => {
   const { update_id } = req.body
   Category.update(update_id, {
     where: {
-      id: id,
+      id: Number(id),
     },
   })
     .then((data) => {
@@ -127,7 +127,7 @@ router.delete('/:id', (req, res) => {
   const { id } = req.params
   Category.destroy({
     where: {
-      id: 1,
+      id: Number(id),
     },
   })
     .then((data) => {

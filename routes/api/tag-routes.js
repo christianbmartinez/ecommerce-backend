@@ -36,7 +36,7 @@ router.get('/:id', (req, res) => {
   const { id } = req.params
   Tag.findOne({
     where: {
-      id: id,
+      id: Number(id),
     },
     include: {
       model: Product,
@@ -99,7 +99,7 @@ router.put('/:id', (req, res) => {
   const { id } = req.params
   Tag.update(tag_name, {
     where: {
-      id: id,
+      id: Number(id),
     },
   })
     .then((data) => {
@@ -124,6 +124,30 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   // delete on tag by its `id` value
+  const { id } = req.params
+  Tag.destroy({
+    where: {
+      id: Number(id),
+    },
+  })
+    .then((data) => {
+      if (!data) {
+        res.status(404).json({
+          success: false,
+          text: `No tag found with id ${id}`,
+        })
+        return
+      } else {
+        res.status(200).json({
+          success: true,
+          text: `Deleted tag with id ${id}`,
+        })
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+      res.status(500).json({ success: false, error: err })
+    })
 })
 
 module.exports = router

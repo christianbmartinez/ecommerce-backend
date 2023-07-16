@@ -129,7 +129,7 @@ router.put('/:id', (req, res) => {
   const { id } = req.params
   Product.update(body, {
     where: {
-      id: id,
+      id: Number(id),
     },
   })
     .then((product) => {
@@ -176,7 +176,7 @@ router.delete('/:id', (req, res) => {
   const { id } = req.params
   Product.destroy({
     where: {
-      id: id,
+      id: Number(id),
     },
   })
     .then((data) => {
