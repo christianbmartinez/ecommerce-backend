@@ -5,7 +5,35 @@ const { Product, Category, Tag, ProductTag } = require('../../models')
 
 // get all products
 router.get('/', (req, res) => {
-  res.status(200).json('GET all products')
+  Product.findAll({
+    attributes: ['id', 'product_name', 'price', 'stock'],
+    include: [
+      {
+        model: Category,
+        attributes: ['category_name'],
+      },
+      {
+        model: Tag,
+        attributes: ['tag_name'],
+      },
+    ],
+  })
+    .then((data) => {
+      if (!data) {
+        res
+          .status(404)
+          .json({ success: false, text: 'No products found', data: null })
+        return
+      } else {
+        res
+          .status(200)
+          .json({ success: true, text: 'Listing all products', data: data })
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+      res.status(500).json({ success: false, error: err })
+    })
 })
 
 // get one product
