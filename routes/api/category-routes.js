@@ -48,14 +48,14 @@ router.get('/:id', (req, res) => {
       if (!data) {
         res.status(404).json({
           success: false,
-          text: `No category found for id ${id}`,
+          text: `No category found with id ${id}`,
           data: null,
         })
         return
       } else {
         res.status(200).json({
           success: true,
-          text: `Listing category for id ${id}`,
+          text: `Listing category with id ${id}`,
           data: data,
         })
       }
@@ -106,7 +106,7 @@ router.put('/:id', (req, res) => {
       if (!data) {
         res.status(404).json({
           success: false,
-          text: `No category found for id ${id}`,
+          text: `No category found with id ${id}`,
         })
         return
       } else {
@@ -134,13 +134,13 @@ router.delete('/:id', (req, res) => {
       if (!data) {
         res.status(404).json({
           success: false,
-          text: `No category found for id ${id}`,
+          text: `No category found with id ${id}`,
         })
         return
       } else {
         res.status(200).json({
           success: true,
-          text: `Deleted category id ${id}`,
+          text: `Deleted category with id ${id}`,
         })
       }
     })
