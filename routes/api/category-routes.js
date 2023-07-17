@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const { Category, Product } = require('../../models')
-const { update } = require('../../models/Category')
 
 // The `/api/categories` endpoint
 
@@ -78,19 +77,18 @@ router.post('/', (req, res) => {
   } else {
     Category.create({
       category_name: category_name,
-    }).then((data) => {
-      res
-        .status(200)
-        .json({
+    })
+      .then((data) => {
+        res.status(200).json({
           success: true,
           text: `Created category for ${category_name}`,
           data: data,
         })
-        .catch((err) => {
-          console.log(err)
-          res.status(500).json({ success: false, error: err })
-        })
-    })
+      })
+      .catch((err) => {
+        console.log(err)
+        res.status(500).json({ success: false, error: err })
+      })
   }
 })
 router.put('/:id', (req, res) => {

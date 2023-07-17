@@ -77,19 +77,18 @@ router.post('/', (req, res) => {
   } else {
     Tag.create({
       tag_name: tag_name,
-    }).then((data) => {
-      res
-        .status(200)
-        .json({
+    })
+      .then((data) => {
+        res.status(200).json({
           success: true,
           text: `Created tag with name ${tag_name}`,
           data: data,
         })
-        .catch((err) => {
-          console.log(err)
-          res.status(500).json({ success: false, error: err })
-        })
-    })
+      })
+      .catch((err) => {
+        console.log(err)
+        res.status(500).json({ success: false, error: err })
+      })
   }
 })
 
