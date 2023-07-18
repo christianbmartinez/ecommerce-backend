@@ -93,4 +93,4 @@ Contributing is welcomed! Please submit a pull request.
 
 Feel free to [email](mailto:hello@christianbmartinez.com?subject=[GitHub]%20Ecommerce%20Backend) me with any questions or view [my github profile](https://github.com/christianbmartinez)
 
-[View submission video](www.example.com)
+[View submission video](https://drive.google.com/file/d/1AUc_vrXPaeOHd3yEtFrUf2ebZXJfRPop/view?usp=sharing)
