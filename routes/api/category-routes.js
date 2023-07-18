@@ -94,8 +94,8 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
   // update a category by its `id` value
   const { id } = req.params
-  const { update_id } = req.body
-  Category.update(update_id, {
+  const body = req.body
+  Category.update(body, {
     where: {
       id: Number(id),
     },
@@ -110,7 +110,7 @@ router.put('/:id', (req, res) => {
       } else {
         res.status(200).json({
           success: true,
-          text: `Updated category id from ${id} to ${update_id}`,
+          text: `Updated category with id ${id}`,
         })
       }
     })

@@ -94,9 +94,9 @@ router.post('/', (req, res) => {
 
 router.put('/:id', (req, res) => {
   // update a tag's name by its `id` value
-  const { tag_name } = req.body
+  const body = req.body
   const { id } = req.params
-  Tag.update(tag_name, {
+  Tag.update(body, {
     where: {
       id: Number(id),
     },
@@ -111,7 +111,7 @@ router.put('/:id', (req, res) => {
       } else {
         res.status(200).json({
           success: true,
-          text: `Updated tag name to ${tag_name} with id ${id}`,
+          text: `Updated tag with id ${id}`,
         })
       }
     })
