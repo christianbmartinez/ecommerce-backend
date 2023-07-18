@@ -41,14 +41,42 @@ An ecommerce backend built with node, sequelize, mysql2, express, and nodemon.
 
 # Usage
 
-`npm install && npm start`
+First, install all dependencies:
 
-Create a .env file in the root directory and insert your db config:
+```
+npm install
+```
+
+Next, create a .env file in the root directory and insert your db config:
 
 ```
 DB_NAME='ecommerce_db'
 DB_USER='root'
 DB_PASSWORD='Your Password'
+```
+
+Assuming you have mysql setup, run this command and enter your password:
+
+```
+mysql -u root -p
+```
+
+Then you need to initiate the db/schema:
+
+```
+source db/schema.sql
+```
+
+Exit the mysql cli and run the seed script:
+
+```
+npm run seed
+```
+
+Finally, you can run the application:
+
+```
+npm start
 ```
 
 Download [insomnia](https://insomnia.rest/download) to view and test endpoints
